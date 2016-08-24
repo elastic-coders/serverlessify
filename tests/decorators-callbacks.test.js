@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const subject = require('../lib/decorators-callbacks');
 require('chai').use(require('sinon-chai'));
 
-describe('utils', () => {
+describe('decorators-callbacks', () => {
   it('should define decorator callbacks', () => {
     expect(subject.decorateLambdaReqCallback).to.be.a('function');
     expect(subject.decorateAddCORSCallback).to.be.a('function');

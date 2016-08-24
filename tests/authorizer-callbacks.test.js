@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const subject = require('../lib/authorizer-callbacks');
 require('chai').use(require('sinon-chai'));
 
-describe('utils', () => {
+describe('authorizer-callbacks', () => {
   it('should define callbacks', () => {
     expect(subject.authorizerValidationCallback).to.be.a('function');
     expect(subject.authorizerCheckCallback).to.be.a('function');
@@ -106,6 +106,10 @@ describe('utils', () => {
       expect(res.sendStatus).to.not.have.been.calledWith(403);
       expect(next).to.have.callCount(1);
     });
+  });
+
+  describe('authorizerCheckCallback', () => {
+
   });
 });
 
