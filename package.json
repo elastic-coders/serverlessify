@@ -1,0 +1,25 @@
+{
+  "name": "serverlessify",
+  "version": "1.0.0",
+  "description": "Utility to simulate AWS Lambda event sources and wirte a server for Serverless functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "istanbul cover _mocha tests/all.test.js -- -R spec --recursive"
+  },
+  "keywords": [
+    "seerverless",
+    "aws",
+    "lambda",
+    "backend",
+    "express"
+  ],
+  "author": "Nicola Peduzzi <thenikso@gmail.com> (http://nikso.net)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "3.5.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.0.2",
+    "sinon": "1.17.5",
+    "sinon-chai": "2.8.0"
+  }
+}
