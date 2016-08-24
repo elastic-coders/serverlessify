@@ -1,3 +1,5 @@
+'use strict';
+
 describe('serverlessify', () => {
   require('./utils.test');
   require('./decorators-callbacks.test');
