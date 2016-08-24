@@ -21,6 +21,7 @@ module.exports = function(options) {
       for (let e of events) {
         const authSource = getObjectPath(['authorizer', 'identitySource'], e);
         const authValidatorExp = getObjectPath(['authorizer', 'identityValidationExpression'], e);
+        const authCacheTtl = getObjectPath(['authorizer', 'resultTtlInSeconds'], e);
         const authorizerFunction = (
           getObjectPath(getObjectPath(['authorizer', 'arn'], e) || '', options.authorizers) ||
           getObjectPath(getObjectPath(['authorizer', 'name'], e) || '', slsHandlers)
@@ -43,7 +44,8 @@ module.exports = function(options) {
               authorizerCheckCallback(
                 authorizerFunction,
                 options.setCacheEntry,
-                options.getCacheEntry
+                options.getCacheEntry,
+                authCacheTtl
               )
             ] : []),
             ...(e.cors ? [decorateAddCORSCallback()] : []),
