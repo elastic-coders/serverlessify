@@ -32,7 +32,7 @@ describe('authorizer-callbacks', () => {
           event: {
             type: 'TOKEN',
             authorizationToken: 'Bearer test',
-            methodArn: 'arn:serverlessify:execute-api:us-east-1:000001:app/GET/test'
+            methodArn: 'arn:aws:execute-api:us-east-1:000001:app/dev/GET/test'
           },
         },
       });
@@ -119,6 +119,7 @@ describe('authorizer-callbacks', () => {
         regionId: 'test-region',
         accountId: 'test-account',
         apiId: 'test-app',
+        stageId: 'test-stage',
       };
       subject.authorizerValidationCallback(null, null, opts)(req, null, next);
       expect(req.lambda).to.eql({
@@ -126,7 +127,7 @@ describe('authorizer-callbacks', () => {
           event: {
             type: 'TOKEN',
             authorizationToken: 'Bearer test',
-            methodArn: 'arn:serverlessify:execute-api:test-region:test-account:test-app/GET/test'
+            methodArn: 'arn:aws:execute-api:test-region:test-account:test-app/test-stage/GET/test'
           },
         },
       });
