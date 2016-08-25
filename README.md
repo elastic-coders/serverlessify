@@ -1,4 +1,4 @@
-# Serverlessify
+# Serverlessify [![CircleCI](https://circleci.com/gh/elastic-coders/serverlessify.svg?style=svg)](https://circleci.com/gh/elastic-coders/serverlessify)
 
 A tool to put back the server in Serverless functions!
 
