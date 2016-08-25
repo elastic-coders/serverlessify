@@ -13,10 +13,14 @@ const decorateAddCORSCallback = require('./lib/decorators-callbacks').decorateAd
 // - `setCacheEntry`
 // - `getCacheEntry`
 module.exports = function(options) {
-  return function(slsConf, slsHandlers) {
+  const services = {};
+  const sls = function(slsConf, slsHandlers) {
+    const service = services[slsConf.service] = services[slsConf.service] || {};
     for (let funcId in slsConf.functions) {
       const funcConf = slsConf.functions[funcId];
       let func = getObjectPath(funcConf.handler, slsHandlers);
+      service[funcId] = func;
+      // http
       const events = (funcConf.events || []).map(e => e.http).filter(e => !!e);
       for (let e of events) {
         const authSource = getObjectPath(['authorizer', 'identitySource'], e);
@@ -56,4 +60,6 @@ module.exports = function(options) {
       }
     }
   };
+  sls.getFunction = (service, func) => (services[service] || {})[func];
+  return sls;
 };
