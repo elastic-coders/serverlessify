@@ -1,6 +1,6 @@
 {
   "name": "serverlessify",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Utility to simulate AWS Lambda event sources and wirte a server for Serverless functions",
   "main": "index.js",
   "scripts": {

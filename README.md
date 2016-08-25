@@ -12,6 +12,8 @@ will just be one command away.
 
 ## Usage
 
+TODO
+
 - `npm install serverlessify`
 - `const serverlessify = require('serverlessify');`
 - `const sls = serverlessify({ http, authorizers });`
@@ -19,10 +21,16 @@ will just be one command away.
 
 ## What's supported
 
+TODO
+
 - html
   - cors
   - authorizer
 
 ## Best practices
 
+TODO
+
 ## Examples
+
+TODO
