@@ -26,32 +26,33 @@ module.exports = function(options) {
           getObjectPath(getObjectPath(['authorizer', 'arn'], e) || '', options.authorizers) ||
           getObjectPath(getObjectPath(['authorizer', 'name'], e) || '', slsHandlers)
         );
+        const callbacks = [decorateLambdaReqCallback()];
+        if (authorizerFunction) {
+          callbacks.push(authorizerValidationCallback(
+            authSource,
+            authValidatorExp ? new RegExp(authValidatorExp) : null,
+            {
+              regionId: 'express',
+              accountId: 'serverlessify',
+              apiId: `${slsConf.service}-${funcId}`,
+            }
+          ));
+          callbacks.push(authorizerCheckCallback(
+            authorizerFunction,
+            options.setCacheEntry,
+            options.getCacheEntry,
+            authCacheTtl
+          ));
+        }
+        if (e.cors) {
+          callbacks.push(decorateAddCORSCallback());
+        }
+        callbacks.push(executeLambdaCallback(func));
         options.html(
           e.method.toLowerCase(),
           `/${e.path.replace(/\{(.+?)\}/g, ':$1')}`,
-          [
-            decorateLambdaReqCallback(),
-            ...(authorizerFunction ? [
-              authorizerValidationCallback(
-                authSource,
-                authValidatorExp ? new RegExp(authValidatorExp) : null,
-                {
-                  regionId: 'express',
-                  accountId: 'serverlessify',
-                  apiId: `${slsConf.service}-${funcId}`,
-                }
-              ),
-              authorizerCheckCallback(
-                authorizerFunction,
-                options.setCacheEntry,
-                options.getCacheEntry,
-                authCacheTtl
-              )
-            ] : []),
-            ...(e.cors ? [decorateAddCORSCallback()] : []),
-            executeLambdaCallback(func),
-          ]
-        )
+          callbacks
+        );
       }
     }
   };
