@@ -19,6 +19,9 @@ module.exports = function(options) {
     for (let funcId in slsConf.functions) {
       const funcConf = slsConf.functions[funcId];
       let func = getObjectPath(funcConf.handler, slsHandlers);
+      if (options.wrapLambda) {
+        func = options.wrapLambda(func);
+      }
       service[funcId] = func;
       // http
       const events = (funcConf.events || []).map(e => e.http).filter(e => !!e);
