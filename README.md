@@ -2,9 +2,9 @@
 
 A tool to put back the server in Serverless functions!
 
-Do you wanted to deploy your NodeJS AWS Lambda with Serverless but then you thought:
+Do you wanted to deploy your NodeJS AWS Lambda with Serverless but then you have been told:
 
-> Well, I'll just start with a monolith and broke it up in microservices later...
+> Well, you should just start with a monolith and broke it up in microservices later...
 
 We have got you covered! Use Serverlessify to write a server which serves Serverless
 lambdas as if they were on AWS. Later, actually deploying your lamndas with Serverless
