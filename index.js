@@ -10,8 +10,9 @@ const decorateAddCORSCallback = require('./lib/decorators-callbacks').decorateAd
 // Options:
 // - `html`
 // - `authorizers`
-// - `setCacheEntry`
-// - `getCacheEntry`
+// - `setCacheEntry({key, value, ttl}, cb())`
+// - `getCacheEntry(key, cb(err, value))`
+// - `wrapLambda`
 module.exports = function(options) {
   const services = {};
   const sls = function(slsConf, slsHandlers) {

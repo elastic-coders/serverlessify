@@ -140,6 +140,7 @@ describe('authorizer-callbacks', () => {
         authorizer: {
           event: {
             authorizationToken: 'test token',
+            methodArn: 'test arn',
           },
         },
         context: 'test context',
@@ -225,7 +226,7 @@ describe('authorizer-callbacks', () => {
       subject.authorizerCheckCallback(authorizer, setCache)(req, res, next);
       expect(setCache).to.have.been.calledWithMatch(
         {
-          key: 'test token',
+          key: 'test token@test arn',
           value: doc,
           ttl: 300,
         }
@@ -234,7 +235,7 @@ describe('authorizer-callbacks', () => {
       subject.authorizerCheckCallback(authorizer, setCache, null, 123)(req, res, next);
       expect(setCache).to.have.been.calledWithMatch(
         {
-          key: 'test token',
+          key: 'test token@test arn',
           value: doc,
           ttl: 123,
         }
