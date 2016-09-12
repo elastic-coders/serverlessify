@@ -34,3 +34,5 @@ TODO
 ## Examples
 
 TODO
+
+Checkout [Serverlessify Starter Kit](https://github.com/elastic-coders/serverlessify-starter-kit) for a practical usage
