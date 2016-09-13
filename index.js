@@ -7,6 +7,8 @@ const authorizerCheckCallback = require('./lib/authorizer-callbacks').authorizer
 const decorateLambdaReqCallback = require('./lib/decorators-callbacks').decorateLambdaReqCallback;
 const decorateAddCORSCallback = require('./lib/decorators-callbacks').decorateAddCORSCallback;
 
+const send200 = (req, res) => res.sendStatus(200);
+
 // Options:
 // - `html`
 // - `authorizers`
@@ -27,6 +29,10 @@ module.exports = function(options) {
       // http
       const events = (funcConf.events || []).map(e => e.http).filter(e => !!e);
       for (let e of events) {
+        // Prepare endpoint options
+        const method = e.method.toLowerCase();
+        const path = `/${e.path.replace(/\{(.+?)\}/g, ':$1')}`;
+        // Prepare authorization options
         const authSource = getObjectPath(['authorizer', 'identitySource'], e);
         const authValidatorExp = getObjectPath(['authorizer', 'identityValidationExpression'], e);
         const authCacheTtl = getObjectPath(['authorizer', 'resultTtlInSeconds'], e);
@@ -34,6 +40,7 @@ module.exports = function(options) {
           getObjectPath(getObjectPath(['authorizer', 'arn'], e) || '', options.authorizers) ||
           getObjectPath(getObjectPath(['authorizer', 'name'], e) || '', slsHandlers)
         );
+        // Prepare callback
         const callbacks = [decorateLambdaReqCallback()];
         if (authorizerFunction) {
           callbacks.push(authorizerValidationCallback(
@@ -52,15 +59,12 @@ module.exports = function(options) {
             authCacheTtl
           ));
         }
-        if (e.cors) {
-          callbacks.push(decorateAddCORSCallback());
-        }
         callbacks.push(executeLambdaCallback(func));
-        options.html(
-          e.method.toLowerCase(),
-          `/${e.path.replace(/\{(.+?)\}/g, ':$1')}`,
-          callbacks
-        );
+        // Setup endpoint
+        if (e.cors) {
+          options.html('options', path, [decorateAddCORSCallback(), send200]);
+        }
+        options.html(method, path, callbacks);
       }
     }
   };
