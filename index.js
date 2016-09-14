@@ -26,13 +26,15 @@ const send200 = (req, res) => res.sendStatus(200);
 //     should be added to all http handle lambdas.
 //   - `authorizers`: a map of global authorizers that will be available to
 //     Serverless http event authorizer configuration as `arn`s
-//   - `authorizersCacheSet` a `function(key, item, ttl)` used to set an entry
+//   - `authorizersCacheSet` a `function({key, value, ttl}, cb)` used to set an entry
 //     in a custom cache to save calls to the authorizer. ttl defaults to 300 (ms)
 //     and should be used to invalidate the cache if a `authorizersCacheGet` is
-//     received after that time.
-//   - `authorizersCacheGet` a `function(key)` used to retireve a cached item.
-//     This function should return a falsy value if there is no cache for the given
-//     key or if the cache item is expired.
+//     received after that time. The callback `cb` should be called after the cache
+//     has been set.
+//   - `authorizersCacheGet` a `function(key, cb)` used to retireve a cached item.
+//     This function should call the callback with a falsy value if there is
+//     no cache for the given key or if the cache item is expired. The callback is
+//     a `function(error, value)`.
 module.exports = function(options) {
   // Validate options
   const httpConfig = options && options.http;
