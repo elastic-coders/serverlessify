@@ -12,27 +12,47 @@ will just be one command away.
 
 ## Usage
 
-TODO
+See [Serverlessify Starter Kit](https://github.com/elastic-coders/serverlessify-starter-kit)
+for a full working usage example.
 
-- `npm install serverlessify`
-- `const serverlessify = require('serverlessify');`
-- `const sls = serverlessify({ http, authorizers });`
-- `sls({ ... }, { ... })`
+Install serverlessify with:
 
-## What's supported
+```
+npm install --save serverlessify
+```
 
-TODO
+Configure serverlessify and use it:
 
-- html
-  - cors
-  - authorizer
+```javascript
+const serverlessify = require('serverlessify');
+const sls = serverlessify({ http, authorizers });
+sls(
+  { ... }, // Serverless configuration object
+  { ... }  // Handlers
+);
+```
 
-## Best practices
+### Options
 
-TODO
+For the moment, only `http` events are supported
 
-## Examples
+- `http`: (required) an map with http event handler configuration:
 
-TODO
-
-Checkout [Serverlessify Starter Kit](https://github.com/elastic-coders/serverlessify-starter-kit) for a practical usage
+  - `eventHandler`: (required) An Express app instance that will be configured
+    to work like AWS API Gateway for the Serverless funcitons that has an http
+    event source.
+  - `getPrincipalIdFromReq`: a function that should return a string sent to the
+    lambda handler as `principalId`. The function will recive the http `req` parameter.
+  - `wrapLambda`: a function that will be called with a lambda function as parameter.
+    A new function should be returned with should in turn call the given lamnda.
+    This is useful if common logic like error handling or promise lambdas
+    should be added to all http handle lambdas.
+  - `authorizers`: a map of global authorizers that will be available to
+    Serverless http event authorizer configuration as `arn`s
+  - `authorizersCacheSet` a `function(key, item, ttl)` used to set an entry
+    in a custom cache to save calls to the authorizer. ttl defaults to 300 (ms)
+    and should be used to invalidate the cache if a `authorizersCacheGet` is
+    received after that time.
+  - `authorizersCacheGet` a `function(key)` used to retireve a cached item.
+    This function should return a falsy value if there is no cache for the given
+    key or if the cache item is expired.
