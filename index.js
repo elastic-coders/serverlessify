@@ -60,9 +60,12 @@ module.exports = function(options) {
         const authSource = getObjectPath(['authorizer', 'identitySource'], e);
         const authValidatorExp = getObjectPath(['authorizer', 'identityValidationExpression'], e);
         const authCacheTtl = getObjectPath(['authorizer', 'resultTtlInSeconds'], e);
+        const authorizerArn = getObjectPath(['authorizer', 'arn'], e);
+        const authorizerName = getObjectPath(['authorizer', 'name'], e);
         const authorizerFunction = (
-          getObjectPath(getObjectPath(['authorizer', 'arn'], e) || '', httpConfig.authorizers) ||
-          getObjectPath(getObjectPath(['authorizer', 'name'], e) || '', slsHandlers)
+          (authorizerArn && getObjectPath(authorizerArn, httpConfig.authorizers)) ||
+          (authorizerName && getObjectPath(authorizerName, slsHandlers)) ||
+          (authorizerName && getObjectPath(`${funcConf.handler.split('.')[0]}.${authorizerName}`, slsHandlers))
         );
         // Prepare callback
         const callbacks = [
