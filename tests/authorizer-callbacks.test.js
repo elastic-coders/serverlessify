@@ -23,7 +23,7 @@ describe('authorizer-callbacks', () => {
         method: 'get',
         path: '/test',
         headers: {
-          auth: 'Bearer test',
+          authorization: 'Bearer test',
         },
       };
       subject.authorizerValidationCallback()(req, null, next);
@@ -58,14 +58,14 @@ describe('authorizer-callbacks', () => {
         method: 'get',
         path: '/test',
         headers: {
-          auth: 'test',
+          authorization: 'test',
         },
       };
       const res = {
         sendStatus: sinon.spy(),
       };
       const cb = subject.authorizerValidationCallback(
-        'method.request.header.Authorization'
+        'method.request.header.Auth'
       );
       cb(req, res, next);
       expect(res.sendStatus).to.have.been.calledWith(403);
@@ -94,7 +94,7 @@ describe('authorizer-callbacks', () => {
         method: 'get',
         path: '/test',
         headers: {
-          auth: 'Bearer allow',
+          authorization: 'Bearer allow',
         },
       };
       res.sendStatus.reset();
@@ -112,7 +112,7 @@ describe('authorizer-callbacks', () => {
         method: 'get',
         path: '/test',
         headers: {
-          auth: 'Bearer test',
+          authorization: 'Bearer test',
         },
       };
       const opts = {
