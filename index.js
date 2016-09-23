@@ -93,7 +93,8 @@ module.exports = function(options) {
         callbacks.push(executeLambdaCallback(func));
         // Setup endpoint
         if (e.cors) {
-          httpConfig.eventHandler('options', path, [decorateAddCORSCallback(), send200]);
+          httpConfig.eventHandler('options', path, [decorateAddCORSCallback(true), send200]);
+          callbacks.unshift(decorateAddCORSCallback());
         }
         httpConfig.eventHandler(method, path, callbacks);
       }
