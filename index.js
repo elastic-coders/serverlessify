@@ -49,7 +49,10 @@ module.exports = function(options) {
       const funcConf = slsConf.functions[funcId];
       let func = getObjectPath(funcConf.handler, slsHandlers);
       if (httpConfig.wrapLambda) {
-        func = httpConfig.wrapLambda(func);
+        func = httpConfig.wrapLambda(func, {
+          lambdaName: funcId,
+          serviceName: slsConf.service,
+        });
       }
       service[funcId] = func;
       // http event source setup
