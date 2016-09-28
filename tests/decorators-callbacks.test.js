@@ -59,8 +59,8 @@ describe('decorators-callbacks', () => {
       expect(subject.decorateAddCORSCallback()).to.be.a('function');
     });
 
-    it('should add CORS headers', () => {
-      const cb = subject.decorateAddCORSCallback();
+    it('should add default CORS headers', () => {
+      const cb = subject.decorateAddCORSCallback(true);
       const req = {};
       const res = {
         header: sinon.spy(),
@@ -72,5 +72,23 @@ describe('decorators-callbacks', () => {
       expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token');
       expect(next).to.have.callCount(1);
     });
+
+    it('should add custom CORS headers', () => {
+      const cb = subject.decorateAddCORSCallback({
+        origins: ['https://myapp.test.com'],
+        methods: ['GET', 'POST']
+      });
+      const req = {};
+      const res = {
+        header: sinon.spy(),
+      };
+      const next = sinon.spy();
+      cb(req, res, next);
+      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Origin', 'https://myapp.test.com');
+      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Methods', 'GET,POST');
+      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token');
+      expect(next).to.have.callCount(1);
+    });
+
   });
 });
