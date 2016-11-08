@@ -69,7 +69,7 @@ describe('decorators-callbacks', () => {
       cb(req, res, next);
       expect(res.header).to.have.been.calledWith('Access-Control-Allow-Origin', '*');
       expect(res.header).to.have.been.calledWith('Access-Control-Allow-Methods', 'GET,PUT,HEAD,PATCH,POST,DELETE,OPTIONS');
-      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token');
+      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token,x-requested-with');
       expect(next).to.have.callCount(1);
     });
 
@@ -86,7 +86,7 @@ describe('decorators-callbacks', () => {
       cb(req, res, next);
       expect(res.header).to.have.been.calledWith('Access-Control-Allow-Origin', 'https://myapp.test.com');
       expect(res.header).to.have.been.calledWith('Access-Control-Allow-Methods', 'GET,POST');
-      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token');
+      expect(res.header).to.have.been.calledWith('Access-Control-Allow-Headers', 'Authorization,Content-Type,x-amz-date,x-amz-security-token,x-requested-with');
       expect(next).to.have.callCount(1);
     });
 
