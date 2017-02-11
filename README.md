@@ -7,7 +7,7 @@ Do you wanted to deploy your NodeJS AWS Lambda with Serverless but then you have
 > Well, you should just start with a monolith and broke it up in microservices later...
 
 We have got you covered! Use Serverlessify to write a server which serves Serverless
-lambdas as if they were on AWS. Later, actually deploying your lamndas with Serverless
+lambdas as if they were on AWS. Later, actually deploying your lambdas with Serverless
 will just be one command away.
 
 ## Usage
@@ -44,7 +44,7 @@ For the moment, only `http` events are supported
   - `getPrincipalIdFromReq`: a function that should return a string sent to the
     lambda handler as `principalId`. The function will recive the http `req` parameter.
   - `wrapLambda`: a function that will be called with a lambda function as parameter.
-    A new function should be returned with should in turn call the given lamnda.
+    A new function should be returned with should in turn call the given lambda.
     This is useful if common logic like error handling or promise lambdas
     should be added to all http handle lambdas.
   - `authorizers`: a map of global authorizers that will be available to
